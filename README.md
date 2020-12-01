@@ -41,35 +41,49 @@ Git是目前世界上最先进的分布式版本控制系统
 
 > [版本回退](https://www.liaoxuefeng.com/wiki/896043488029600/897013573512192)
 
+#### 3.1 本地回退
+
 * 先看一下提交记录，命令 `git log`：
+  
   ```git
   $ git log
   commit a0c5fe209704e56a7e00e79f3de7b5d67b33c31a (HEAD -> master)
   Author: ------- <----------@gmail.com>
-  Date:   Mon Aug 24 20:11:47 2020 +0800
-
-      append GPL
-
+Date:   Mon Aug 24 20:11:47 2020 +0800
+  
+    append GPL
+  
   commit fab9c50d48b54085c54211d33737f4662a2a4488
   Author: ------- <----------@gmail.com>
-  Date:   Mon Aug 24 20:04:35 2020 +0800
-
-      add a word distributed
-
+Date:   Mon Aug 24 20:04:35 2020 +0800
+  
+    add a word distributed
+  
   commit 415ac66de426d66b906ad06afd7d4dec0ec7ea10
   Author: ------- <----------@gmail.com>
   Date:   Mon Aug 24 19:54:13 2020 +0800
   ```
   * 注意 commit 后面那一串东西是 commit id（版本号）
-* `HEAD` 是指针，指向的版本就是**当前版本**。因此，Git允许我们在版本的历史之间穿梭，使用命令 `git reset --hard commit_id`
+  
+* `HEAD` 是指针，指向的版本就是**当前版本**。因此，Git允许我们在版本的历史之间穿梭，使用命令 `git reset --hard <commit_id>`
+  
   * **先查看提交历史**，命令 `git log` ，以便确定要**回退**到哪个版本。
-    * 可以用 `commit <id>` 指定版本，也可以用如下符号：
+    * 可以用 `<commit_id>` 指定版本，也可以用如下符号：
       * `HEAD^` 上一个版本
       * `HEAD^^` 上上个版本
       * `HEAD~100` 往上100个版本
     * 注意：会 “丢失” 后续版本
   * 要**重返未来**，用 `git reflog` 查看**命令历史**，以便确定要回到未来的哪个版本
+  
 * 命令 `cat <file>` 可以看看该文件内容
+
+#### 3.2 远程回滚
+
+* 如果你的错误提交已经推送到自己的远程分支了，那么就需要回滚远程分支了
+  * 先本地回退
+    * `git reset --hard <commit_id>`
+  * 再强制推送到远程分支
+    * `git push -f origin master ## 这里假设只有一个master分支`
 
 ### 4. Git的基本工作原理
 
